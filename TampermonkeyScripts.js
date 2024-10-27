@@ -26,7 +26,6 @@
     path: "mcn-data.json",
   };
 
-
   // 添加样式
   GM_addStyle(`
       .mcn-button {
@@ -269,30 +268,25 @@
         return false;
       }
     },
-
     // 从GitHub获取数据
     async fetchFromGitHub() {
       const rawUrl = `https://raw.githubusercontent.com/${GITHUB_CONFIG.owner}/${GITHUB_CONFIG.repo}/${GITHUB_CONFIG.branch}/${GITHUB_CONFIG.path}`;
 
-      return new Promise((resolve, reject) => {
-        GM_xmlhttpRequest({
-          method: "GET",
-          url: rawUrl,
-          onload: (response) => {
-            if (response.status === 200) {
-              try {
-                const data = JSON.parse(response.responseText);
-                resolve(data);
-              } catch (e) {
-                reject(new Error("Invalid JSON data"));
-              }
-            } else {
-              reject(new Error(`HTTP ${response.status}`));
-            }
-          },
-          onerror: () => reject(new Error("Network error")),
-        });
-      });
+      try {
+        console.log("Fetching from URL:", rawUrl); // 调试信息
+        const response = await fetch(rawUrl);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Fetched data:", data); // 调试信息
+        return data;
+      } catch (error) {
+        console.error("Fetch failed:", error); // 调试信息
+        throw error;
+      }
     },
 
     // 获取MCN信息
@@ -475,9 +469,6 @@
   async function initialize() {
     DataManager.createStatusElement();
     DataManager.addMainButton();
-
-    // 尝试从缓存加载数据
-    DataManager.loadFromCache();
 
     if (window.location.pathname.startsWith("/people/")) {
       handlePeoplePage();
