@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         知乎答主MCN信息显示
 // @namespace    https://github.com/ByronLeeeee/zhihu-mcn-data/
-// @version      1.0
+// @version      1.2
 // @description  获取并显示答主MCN数据
 // @author       ByronLeeeee
 // @match        *://www.zhihu.com/question/*
@@ -448,6 +448,11 @@
       }
     }
 
+    // 处理已有的回答
+    const initialAnswers = document.querySelectorAll(".List-item");
+    initialAnswers.forEach(processAnswer);
+
+    // 监听新加载的回答
     const observer = new MutationObserver((mutations) => {
       const answers = document.querySelectorAll(
         ".List-item:not(.processed-mcn)"
@@ -460,9 +465,9 @@
       subtree: true,
     });
 
-    // 处理已有的回答
-    const initialAnswers = document.querySelectorAll(".List-item");
-    initialAnswers.forEach(processAnswer);
+
+
+
   }
 
   // 初始化
