@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         知乎答主MCN信息显示
+// @name         Zhihu MCN | 知乎答主MCN信息显示
 // @namespace    https://github.com/ByronLeeeee/zhihu-mcn-data/
-// @version      1.2
-// @description  获取并显示答主MCN数据
+// @version      1.3
+// @description  一键获取并显示答主MCN数据，可同步数据库更新信息。一次收集，长效显示。
 // @author       ByronLeeeee
 // @match        *://www.zhihu.com/question/*
 // @match        *://www.zhihu.com/people/*
